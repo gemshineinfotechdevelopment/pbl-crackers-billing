@@ -26,7 +26,7 @@ import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 import FormatListNumberedRoundedIcon from '@mui/icons-material/FormatListNumberedRounded';
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
 import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
-import defaultApsaraLogo from '../assets/logo.png';
+import defaultPblLogo from '../assets/logo.png';
 import { getStoredSettings, type CompanySettings } from './SettingsPage';
 import { HealthApi, API_BASE_URL } from '../services/api';
 
@@ -143,7 +143,7 @@ export const Navbar: FC<NavbarProps> = ({
           {/* Logo */}
           <Box
             component="img"
-            src={companySettings.logoUrl || defaultApsaraLogo}
+            src={companySettings.logoUrl || defaultPblLogo}
             alt={companySettings.companyName || 'PBL Crackers'}
             sx={{
               width: { xs: 34, sm: 40 },

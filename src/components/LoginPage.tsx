@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import defaultApsaraLogo from '../assets/logo.png';
+import defaultPblLogo from '../assets/logo.png';
 import { AuthApi, SettingsApi } from '../services/api';
 import { getStoredSettings, DEFAULT_COMPANY_SETTINGS, type CompanySettings } from './SettingsPage';
 
@@ -39,7 +39,11 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             ? 'PBL Crackers'
             : (data.companyName ?? DEFAULT_COMPANY_SETTINGS.companyName);
 
-          const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName };
+          const logo = (!data.logoUrl || data.logoUrl.includes('varun-traders') || data.logoUrl.includes('apsara') || data.logoUrl.includes('new_crackers'))
+            ? DEFAULT_COMPANY_SETTINGS.logoUrl
+            : data.logoUrl;
+
+          const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName, logoUrl: logo };
           setSettings(remoteSettings);
           localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(remoteSettings));
           localStorage.setItem('new_crackers_app_settings', JSON.stringify(remoteSettings));
@@ -135,16 +139,16 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
         {/* Top Logo / Festive Shield Badge */}
         <Box
           component="img"
-          src={settings.logoUrl || defaultApsaraLogo}
-          alt="Apsara Crackers Logo"
+          src={settings.logoUrl || defaultPblLogo}
+          alt="PBL Crackers Logo"
           sx={{
-            maxHeight: 70,
-            maxWidth: 200,
+            height: { xs: 80, sm: 90 },
+            width: { xs: 80, sm: 90 },
             objectFit: 'contain',
             display: 'block',
             mx: 'auto',
             mb: 2,
-            filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.15))',
+            filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.12))',
           }}
         />
 

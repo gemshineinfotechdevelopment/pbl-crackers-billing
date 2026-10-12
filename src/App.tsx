@@ -56,11 +56,16 @@ function App() {
       .then((res) => {
         const data = (res && typeof res === 'object' && 'data' in res && res.data) ? res.data : res;
         if (data && typeof data === 'object') {
-          const compName = (!data.companyName || data.companyName.toLowerCase().includes('varun') || data.companyName.toLowerCase().includes('dheeksha'))
-            ? 'Apsara Crackers'
+          const compName = (!data.companyName || data.companyName.toLowerCase().includes('varun') || data.companyName.toLowerCase().includes('dheeksha') || data.companyName.toLowerCase().includes('apsara') || data.companyName.toLowerCase().includes('new'))
+            ? 'PBL Crackers'
             : (data.companyName ?? DEFAULT_COMPANY_SETTINGS.companyName);
 
-          const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName };
+          const logo = (!data.logoUrl || data.logoUrl.includes('varun-traders') || data.logoUrl.includes('apsara') || data.logoUrl.includes('new_crackers'))
+            ? DEFAULT_COMPANY_SETTINGS.logoUrl
+            : data.logoUrl;
+
+          const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName, logoUrl: logo };
+          localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(remoteSettings));
           localStorage.setItem('apsara_app_settings', JSON.stringify(remoteSettings));
           window.dispatchEvent(new Event('apsara_settings_updated'));
           updateTitle();

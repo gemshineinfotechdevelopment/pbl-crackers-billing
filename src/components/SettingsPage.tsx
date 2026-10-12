@@ -146,7 +146,7 @@ export const getStoredSettings = (): CompanySettings => {
       if (!parsed.companyName || parsed.companyName.toLowerCase().includes('varun') || parsed.companyName.toLowerCase().includes('dheeksha') || parsed.companyName.toLowerCase().includes('apsara') || parsed.companyName.toLowerCase().includes('new')) {
         parsed.companyName = 'PBL Crackers';
       }
-      if (!parsed.logoUrl || parsed.logoUrl.includes('varun-traders.png')) {
+      if (!parsed.logoUrl || parsed.logoUrl.includes('varun-traders.png') || parsed.logoUrl.includes('apsara') || parsed.logoUrl.includes('varun')) {
         parsed.logoUrl = defaultProjectLogo;
       }
       if (!parsed.phone || parsed.phone.includes('98765')) {
@@ -196,7 +196,7 @@ export const SettingsPage: React.FC = () => {
             ? 'PBL Crackers'
             : data.companyName;
 
-          const logo = (!data.logoUrl || data.logoUrl.includes('varun-traders.png'))
+          const logo = (!data.logoUrl || data.logoUrl.includes('varun-traders.png') || data.logoUrl.includes('apsara') || data.logoUrl.includes('varun'))
             ? defaultProjectLogo
             : data.logoUrl;
 

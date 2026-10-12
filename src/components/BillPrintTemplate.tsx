@@ -1,6 +1,6 @@
 import React from 'react';
 import defaultGaneshaLogo from '../assets/ganesha.jpg';
-import defaultApsaraFeatherLogo from '../assets/apsara_logo.jpg';
+import defaultPblLogo from '../assets/logo.png';
 import { getStoredSettings } from './SettingsPage';
 import { numberToIndianWords } from '../utils/numberToWords';
 
@@ -329,10 +329,10 @@ export const BillPrintTemplate: React.FC<BillPrintTemplateProps> = ({ bill, copy
             </div>
           </div>
 
-          {/* Right: Apsara Crackers Logo */}
+          {/* Right: PBL Crackers Logo */}
           <div style={{ width: '85px', textAlign: 'center', flexShrink: 0 }}>
             <img
-              src={defaultApsaraFeatherLogo}
+              src={defaultPblLogo}
               alt="PBL Crackers"
               style={{
                 maxHeight: '68px',
