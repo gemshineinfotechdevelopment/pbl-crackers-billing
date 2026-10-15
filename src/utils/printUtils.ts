@@ -230,7 +230,7 @@ export const generateBillHtml = (bill: BillPrintData, copiesCount: number = 1): 
 
       <!-- Main Bordered Container -->
       <div class="bill-box">
-        <!-- Header: Ganesha (Left) | Title (Center) | Apsara Logo (Right) -->
+        <!-- Header: Ganesha (Left) | Title (Center) | PBL Logo (Right) -->
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 10px 6px 10px; border-bottom: 1.5px solid #000000;">
           <div style="width: 75px; text-align: center; flex-shrink: 0;">
             <img src="${ganeshaImgUrl}" alt="Ganesha" style="max-height: 68px; max-width: 72px; object-fit: contain; display: block; margin: 0 auto;" />
@@ -753,7 +753,7 @@ export const generateGstBillHtml = (bill: GstBillPrintData, copiesCount: number 
           GSTIN No : <span>${gstinNo}</span>
         </div>
 
-        <!-- Header: Ganesha (Left) | Title (Center) | Apsara Logo (Right) -->
+        <!-- Header: Ganesha (Left) | Title (Center) | PBL Logo (Right) -->
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 10px 6px 10px; border-bottom: 1.5px solid #000000;">
           <div style="width: 75px; text-align: center; flex-shrink: 0;">
             <img src="${ganeshaImgUrl}" alt="Ganesha" style="max-height: 68px; max-width: 72px; object-fit: contain; display: block; margin: 0 auto;" />
@@ -1779,13 +1779,13 @@ export const printProductsListDirectly = (products: any[]) => {
  */
 const triggerBrowserPrint = (htmlContent: string) => {
   // Clean up any existing iframe to avoid stale listeners or stacked frames
-  const existingIframe = document.getElementById('apsara-print-iframe');
+  const existingIframe = document.getElementById('pbl-billing-print-iframe');
   if (existingIframe) {
     existingIframe.remove();
   }
 
   const iframe = document.createElement('iframe');
-  iframe.id = 'apsara-print-iframe';
+  iframe.id = 'pbl-billing-print-iframe';
   iframe.style.position = 'fixed';
   iframe.style.right = '0';
   iframe.style.bottom = '0';

@@ -80,9 +80,11 @@ export const Navbar: FC<NavbarProps> = ({
     const handleSettingsUpdate = () => {
       setCompanySettings(getStoredSettings());
     };
-    window.addEventListener('apsara_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_settings_updated', handleSettingsUpdate);
     return () => {
-      window.removeEventListener('apsara_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_settings_updated', handleSettingsUpdate);
     };
   }, []);
 

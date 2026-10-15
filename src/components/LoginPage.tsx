@@ -45,9 +45,8 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
           const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName, logoUrl: logo };
           setSettings(remoteSettings);
+          localStorage.setItem('pbl_billing_app_settings', JSON.stringify(remoteSettings));
           localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(remoteSettings));
-          localStorage.setItem('new_crackers_app_settings', JSON.stringify(remoteSettings));
-          localStorage.setItem('apsara_app_settings', JSON.stringify(remoteSettings));
         }
       })
       .catch((err) => {
@@ -57,9 +56,11 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
     const handleUpdate = () => {
       setSettings(getStoredSettings());
     };
-    window.addEventListener('apsara_settings_updated', handleUpdate);
+    window.addEventListener('pbl_billing_settings_updated', handleUpdate);
+    window.addEventListener('pbl_settings_updated', handleUpdate);
     return () => {
-      window.removeEventListener('apsara_settings_updated', handleUpdate);
+      window.removeEventListener('pbl_billing_settings_updated', handleUpdate);
+      window.removeEventListener('pbl_settings_updated', handleUpdate);
     };
   }, []);
 
@@ -80,12 +81,10 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
       });
 
       if (res && res.token) {
+        localStorage.setItem('pbl_billing_auth_token', res.token);
         localStorage.setItem('pbl_crackers_auth_token', res.token);
-        localStorage.setItem('new_crackers_auth_token', res.token);
-        localStorage.setItem('apsara_auth_token', res.token);
+        localStorage.setItem('pbl_billing_auth_user', JSON.stringify(res.user || { username: username.trim(), role: 'admin' }));
         localStorage.setItem('pbl_crackers_auth_user', JSON.stringify(res.user || { username: username.trim(), role: 'admin' }));
-        localStorage.setItem('new_crackers_auth_user', JSON.stringify(res.user || { username: username.trim(), role: 'admin' }));
-        localStorage.setItem('apsara_auth_user', JSON.stringify(res.user || { username: username.trim(), role: 'admin' }));
         onLoginSuccess(res.user || { username: username.trim(), role: 'admin' });
       }
     } catch (err: any) {
@@ -93,11 +92,13 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
       // Fallback offline verification if server is unreachable or initial run
       if (
         (username.trim().toLowerCase() === 'admin' && (password === 'admin123' || password === 'admin')) ||
-        (password === 'admin123' || password === 'apsara123')
+        (password === 'admin123' || password === 'pbl123')
       ) {
         const fallbackUser = { username: username.trim().toLowerCase(), role: 'admin' };
-        localStorage.setItem('apsara_auth_token', 'local-admin-token');
-        localStorage.setItem('apsara_auth_user', JSON.stringify(fallbackUser));
+        localStorage.setItem('pbl_billing_auth_token', 'local-admin-token');
+        localStorage.setItem('pbl_crackers_auth_token', 'local-admin-token');
+        localStorage.setItem('pbl_billing_auth_user', JSON.stringify(fallbackUser));
+        localStorage.setItem('pbl_crackers_auth_user', JSON.stringify(fallbackUser));
         onLoginSuccess(fallbackUser);
       } else {
         setErrorMsg(err.message || 'Invalid username or password. Default: admin / admin123');
@@ -179,7 +180,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             mb: 3.5,
           }}
         >
-          {settings.companyName || 'Apsara Crackers'} - Billing & Management System
+          {settings.companyName || 'PBL Crackers'} - Billing & Management System
         </Typography>
 
         {/* Error Alert if any */}
@@ -387,7 +388,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           }}
         >
           <Typography sx={{ fontSize: '12px', color: '#B45309', fontWeight: 600 }}>
-            {settings.companyName || 'Apsara Crackers'} {settings.tagline ? `• ${settings.tagline}` : ''}
+            {settings.companyName || 'PBL Crackers'} {settings.tagline ? `• ${settings.tagline}` : ''}
           </Typography>
         </Box>
       </Paper>

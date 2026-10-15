@@ -25,8 +25,8 @@ const getApiBaseUrl = (): string => {
     return '/api';
   }
 
-  // Default to local backend server on Port 5015
-  return 'http://localhost:5015/api';
+  // Default to local backend server on Port 5018
+  return 'http://localhost:5018/api';
 };
 
 export const API_BASE_URL = getApiBaseUrl();
@@ -46,7 +46,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
   // Retrieve auth token if stored
   const token = typeof window !== 'undefined'
-    ? (localStorage.getItem('pbl_crackers_auth_token') || localStorage.getItem('new_crackers_auth_token') || localStorage.getItem('apsara_auth_token'))
+    ? (localStorage.getItem('pbl_billing_auth_token') || localStorage.getItem('pbl_crackers_auth_token'))
     : null;
 
   const headers: Record<string, string> = {

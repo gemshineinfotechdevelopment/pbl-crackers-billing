@@ -85,9 +85,11 @@ export const BillPrintTemplate: React.FC<BillPrintTemplateProps> = ({ bill, copy
     const handleSettingsUpdate = () => {
       setStoreSettings(getStoredSettings());
     };
-    window.addEventListener('apsara_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_settings_updated', handleSettingsUpdate);
     return () => {
-      window.removeEventListener('apsara_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_settings_updated', handleSettingsUpdate);
     };
   }, []);
 
@@ -270,7 +272,7 @@ export const BillPrintTemplate: React.FC<BillPrintTemplateProps> = ({ bill, copy
           justifyContent: 'space-between',
         }}
       >
-        {/* Header: Ganesha (Left) | Title & Address (Center) | Apsara Logo (Right) */}
+        {/* Header: Ganesha (Left) | Title & Address (Center) | PBL Logo (Right) */}
         <div
           style={{
             display: 'flex',
@@ -295,7 +297,7 @@ export const BillPrintTemplate: React.FC<BillPrintTemplateProps> = ({ bill, copy
             />
           </div>
 
-          {/* Center: Apsara Traders Details */}
+          {/* Center: PBL Crackers Details */}
           <div style={{ flex: 1, textAlign: 'center', padding: '0 8px' }}>
             <div
               style={{

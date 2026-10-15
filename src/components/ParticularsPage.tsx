@@ -70,7 +70,7 @@ interface ParticularsPageProps {
   onEditSuccess?: () => void;
 }
 
-const DRAFT_BILL_STORAGE_KEY = 'apsara_draft_bill';
+const DRAFT_BILL_STORAGE_KEY = 'pbl_billing_draft_bill';
 
 interface DraftBillState {
   customerName?: string;
@@ -202,9 +202,11 @@ export const ParticularsPage: FC<ParticularsPageProps> = ({ initialCustomerName,
         setTax('0');
       }
     };
-    window.addEventListener('apsara_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_settings_updated', handleSettingsUpdate);
     return () => {
-      window.removeEventListener('apsara_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_settings_updated', handleSettingsUpdate);
     };
   }, [tax]);
 
@@ -532,8 +534,8 @@ export const ParticularsPage: FC<ParticularsPageProps> = ({ initialCustomerName,
         setPacking('0');
         setTax(storeSettings.enableTax ? (storeSettings.defaultTaxRate || '0') : '0');
         localStorage.removeItem(DRAFT_BILL_STORAGE_KEY);
-        localStorage.removeItem('apsara_active_customer');
-        ['varun_draft_bill', 'dheeksha_draft_bill', 'varun_active_customer', 'dheeksha_active_customer'].forEach(k => localStorage.removeItem(k));
+        localStorage.removeItem('pbl_billing_active_customer');
+        localStorage.removeItem('pbl_active_customer');
         fetchNextBillNo();
         refreshDate();
         loadOptions();
@@ -561,8 +563,8 @@ export const ParticularsPage: FC<ParticularsPageProps> = ({ initialCustomerName,
     setPacking('0');
     setTax(storeSettings.enableTax ? (storeSettings.defaultTaxRate || '0') : '0');
     localStorage.removeItem(DRAFT_BILL_STORAGE_KEY);
-    localStorage.removeItem('apsara_active_customer');
-    ['varun_draft_bill', 'dheeksha_draft_bill', 'varun_active_customer', 'dheeksha_active_customer'].forEach(k => localStorage.removeItem(k));
+    localStorage.removeItem('pbl_billing_active_customer');
+    localStorage.removeItem('pbl_active_customer');
     fetchNextBillNo();
     refreshDate();
   };

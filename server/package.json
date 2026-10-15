@@ -1,7 +1,7 @@
 {
-  "name": "pbl-crackers-backend",
+  "name": "pbl-billing-backend",
   "version": "1.0.0",
-  "description": "Backend API Server for PBL Crackers application",
+  "description": "Backend API Server for PBL Billing application",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch index.ts",

@@ -165,10 +165,9 @@ export const CustomersPage: FC<CustomersPageProps> = ({ onAddNew, onSelectCustom
       const deletedCust = customers.find((c) => (c._id || c.id) === id);
       await CustomersApi.delete(id);
       setCustomers((prev) => prev.filter((c) => (c._id || c.id) !== id));
-      if (deletedCust && (localStorage.getItem('apsara_active_customer') === deletedCust.name || localStorage.getItem('varun_active_customer') === deletedCust.name)) {
-        localStorage.removeItem('apsara_active_customer');
-        localStorage.removeItem('varun_active_customer');
-        localStorage.removeItem('dheeksha_active_customer');
+      if (deletedCust && (localStorage.getItem('pbl_billing_active_customer') === deletedCust.name || localStorage.getItem('pbl_active_customer') === deletedCust.name)) {
+        localStorage.removeItem('pbl_billing_active_customer');
+        localStorage.removeItem('pbl_active_customer');
       }
     } catch (err) {
       console.error('Failed to delete customer:', err);

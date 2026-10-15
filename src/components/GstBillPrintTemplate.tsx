@@ -97,19 +97,21 @@ export const GstBillPrintTemplate: React.FC<GstBillPrintTemplateProps> = ({ bill
     const handleSettingsUpdate = () => {
       setStoreSettings(getStoredSettings());
     };
-    window.addEventListener('apsara_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+    window.addEventListener('pbl_settings_updated', handleSettingsUpdate);
     return () => {
-      window.removeEventListener('apsara_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_billing_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('pbl_settings_updated', handleSettingsUpdate);
     };
   }, []);
 
   // Display Company Name
   const rawComp = bill.companyName && bill.companyName.trim() !== '' && bill.companyName !== 'General'
     ? bill.companyName
-    : storeSettings.companyName || 'APSARA TRADERS';
-  const displayCompanyName = rawComp.toUpperCase().includes('VARUN') || rawComp.toUpperCase().includes('DHEEKSHA')
-    ? 'APSARA TRADERS'
-    : (rawComp.toUpperCase().includes('APSARA') ? 'APSARA TRADERS' : rawComp.toUpperCase());
+    : storeSettings.companyName || 'PBL CRACKERS';
+  const displayCompanyName = rawComp.toUpperCase().includes('VARUN') || rawComp.toUpperCase().includes('DHEEKSHA') || rawComp.toUpperCase().includes('APSARA')
+    ? 'PBL CRACKERS'
+    : (rawComp.toUpperCase().includes('PBL') ? 'PBL CRACKERS' : rawComp.toUpperCase());
 
   // GSTIN
   const gstinNo = bill.gstin || storeSettings.gstin || '33ABFFA6758B1ZP';
@@ -288,7 +290,7 @@ export const GstBillPrintTemplate: React.FC<GstBillPrintTemplateProps> = ({ bill
           GSTIN No : <span>{gstinNo}</span>
         </div>
 
-        {/* Header: Ganesha (Left) | Title & Address (Center) | Apsara Logo (Right) */}
+        {/* Header: Ganesha (Left) | Title & Address (Center) | PBL Logo (Right) */}
         <div
           style={{
             display: 'flex',
@@ -313,7 +315,7 @@ export const GstBillPrintTemplate: React.FC<GstBillPrintTemplateProps> = ({ bill
             />
           </div>
 
-          {/* Center: Apsara Traders Details */}
+          {/* Center: PBL Crackers Details */}
           <div style={{ flex: 1, textAlign: 'center', padding: '0 8px' }}>
             <div
               style={{

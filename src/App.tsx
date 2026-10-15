@@ -13,14 +13,14 @@ import { GstBillPage } from './components/GstBillPage';
 import { SettingsPage, getStoredSettings, DEFAULT_COMPANY_SETTINGS } from './components/SettingsPage';
 import { SettingsApi } from './services/api';
 
-const ACTIVE_TAB_KEY = 'apsara_active_tab';
-const CUSTOMER_SUBVIEW_KEY = 'apsara_customer_subview';
+const ACTIVE_TAB_KEY = 'pbl_billing_active_tab';
+const CUSTOMER_SUBVIEW_KEY = 'pbl_billing_customer_subview';
 
 const VALID_TABS = ['All Customers', 'Billing', 'GST Bill', 'Categories', 'Price List', 'Product', 'Settings'] as const;
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return Boolean(localStorage.getItem('apsara_auth_token'));
+    return Boolean(localStorage.getItem('pbl_billing_auth_token') || localStorage.getItem('pbl_crackers_auth_token') || localStorage.getItem('apsara_auth_token'));
   });
   const [activeTab, setActiveTab] = useState<NavTab>(() => {
     const saved = localStorage.getItem(ACTIVE_TAB_KEY);
@@ -46,7 +46,7 @@ function App() {
 
     const updateTitle = () => {
       const settings = getStoredSettings();
-      const compName = settings.companyName || 'Apsara Crackers';
+      const compName = settings.companyName || 'PBL Crackers';
       document.title = `${compName} - Billing & Management`;
     };
     updateTitle();
@@ -65,9 +65,10 @@ function App() {
             : data.logoUrl;
 
           const remoteSettings = { ...DEFAULT_COMPANY_SETTINGS, ...data, companyName: compName, logoUrl: logo };
+          localStorage.setItem('pbl_billing_app_settings', JSON.stringify(remoteSettings));
           localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(remoteSettings));
-          localStorage.setItem('apsara_app_settings', JSON.stringify(remoteSettings));
-          window.dispatchEvent(new Event('apsara_settings_updated'));
+          window.dispatchEvent(new Event('pbl_billing_settings_updated'));
+          window.dispatchEvent(new Event('pbl_settings_updated'));
           updateTitle();
         }
       })
@@ -75,9 +76,11 @@ function App() {
         console.warn('Could not connect to settings API on startup:', err);
       });
 
-    window.addEventListener('apsara_settings_updated', updateTitle);
+    window.addEventListener('pbl_billing_settings_updated', updateTitle);
+    window.addEventListener('pbl_settings_updated', updateTitle);
     return () => {
-      window.removeEventListener('apsara_settings_updated', updateTitle);
+      window.removeEventListener('pbl_billing_settings_updated', updateTitle);
+      window.removeEventListener('pbl_settings_updated', updateTitle);
     };
   }, []);
 
@@ -86,9 +89,8 @@ function App() {
   };
 
   const handleLogout = () => {
-    ['apsara_auth_token', 'apsara_auth_user', 'apsara_active_customer', 'apsara_draft_bill',
-     'varun_auth_token', 'dheeksha_auth_token', 'varun_auth_user', 'dheeksha_auth_user',
-     'varun_active_customer', 'dheeksha_active_customer',
+    ['pbl_billing_auth_token', 'pbl_crackers_auth_token', 'pbl_billing_auth_user', 'pbl_crackers_auth_user',
+     'pbl_billing_active_customer', 'pbl_active_customer', 'pbl_billing_draft_bill', 'apsara_auth_token', 'apsara_auth_user',
      ACTIVE_TAB_KEY, CUSTOMER_SUBVIEW_KEY].forEach(key => localStorage.removeItem(key));
     setIsAuthenticated(false);
     setActiveTab('All Customers');

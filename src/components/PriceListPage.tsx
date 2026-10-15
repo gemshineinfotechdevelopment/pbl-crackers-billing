@@ -138,7 +138,7 @@ export const PriceListPage: FC = () => {
   // Uploaded Documents List (Persisted in localStorage)
   const [uploadedDocs, setUploadedDocs] = useState<UploadedPriceDoc[]>(() => {
     try {
-      const saved = localStorage.getItem('apsara_uploaded_price_docs') || localStorage.getItem('varun_uploaded_price_docs') || localStorage.getItem('dheeksha_uploaded_price_docs');
+      const saved = localStorage.getItem('pbl_billing_uploaded_price_docs') || localStorage.getItem('pbl_uploaded_price_docs');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -161,9 +161,7 @@ export const PriceListPage: FC = () => {
   const saveDocsList = (docs: UploadedPriceDoc[]) => {
     setUploadedDocs(docs);
     try {
-      localStorage.setItem('apsara_uploaded_price_docs', JSON.stringify(docs));
-      localStorage.removeItem('varun_uploaded_price_docs');
-      localStorage.removeItem('dheeksha_uploaded_price_docs');
+      localStorage.setItem('pbl_billing_uploaded_price_docs', JSON.stringify(docs));
     } catch (err) {
       console.warn('Storage limit reached for local docs:', err);
     }

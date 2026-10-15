@@ -140,7 +140,7 @@ export const removeWhiteBackgroundFromDataUrl = (
 
 export const getStoredSettings = (): CompanySettings => {
   try {
-    const saved = localStorage.getItem('pbl_crackers_app_settings') || localStorage.getItem('new_crackers_app_settings') || localStorage.getItem('apsara_app_settings') || localStorage.getItem('varun_app_settings') || localStorage.getItem('dheeksha_app_settings');
+    const saved = localStorage.getItem('pbl_billing_app_settings') || localStorage.getItem('pbl_crackers_app_settings') || localStorage.getItem('new_crackers_app_settings');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (!parsed.companyName || parsed.companyName.toLowerCase().includes('varun') || parsed.companyName.toLowerCase().includes('dheeksha') || parsed.companyName.toLowerCase().includes('apsara') || parsed.companyName.toLowerCase().includes('new')) {
@@ -230,10 +230,10 @@ export const SettingsPage: React.FC = () => {
             defaultTaxRate: data.defaultTaxRate || '18',
           };
           setSettings(remoteSettings);
-          localStorage.setItem('apsara_app_settings', JSON.stringify(remoteSettings));
-          localStorage.removeItem('varun_app_settings');
-          localStorage.removeItem('dheeksha_app_settings');
-          window.dispatchEvent(new Event('apsara_settings_updated'));
+          localStorage.setItem('pbl_billing_app_settings', JSON.stringify(remoteSettings));
+          localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(remoteSettings));
+          window.dispatchEvent(new Event('pbl_billing_settings_updated'));
+          window.dispatchEvent(new Event('pbl_settings_updated'));
         }
       } catch (err) {
         console.warn('Could not fetch settings from backend, using local storage:', err);
@@ -344,10 +344,10 @@ export const SettingsPage: React.FC = () => {
     try {
       setIsSaving(true);
       // 1. Immediately cache in localStorage for instant UI feedback
-      localStorage.setItem('apsara_app_settings', JSON.stringify(settings));
-      localStorage.removeItem('varun_app_settings');
-      localStorage.removeItem('dheeksha_app_settings');
-      window.dispatchEvent(new Event('apsara_settings_updated'));
+      localStorage.setItem('pbl_billing_app_settings', JSON.stringify(settings));
+      localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(settings));
+      window.dispatchEvent(new Event('pbl_billing_settings_updated'));
+      window.dispatchEvent(new Event('pbl_settings_updated'));
 
       // 2. Persist to MongoDB database so it syncs across all devices & deployments!
       const saveRes = await SettingsApi.update(settings);
@@ -371,10 +371,10 @@ export const SettingsPage: React.FC = () => {
           defaultTaxRate: data.defaultTaxRate ?? settings.defaultTaxRate ?? '18',
         };
         setSettings(syncedSettings);
-        localStorage.setItem('apsara_app_settings', JSON.stringify(syncedSettings));
-        localStorage.removeItem('varun_app_settings');
-        localStorage.removeItem('dheeksha_app_settings');
-        window.dispatchEvent(new Event('apsara_settings_updated'));
+        localStorage.setItem('pbl_billing_app_settings', JSON.stringify(syncedSettings));
+        localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(syncedSettings));
+        window.dispatchEvent(new Event('pbl_billing_settings_updated'));
+        window.dispatchEvent(new Event('pbl_settings_updated'));
       }
 
       setToast({
@@ -397,10 +397,10 @@ export const SettingsPage: React.FC = () => {
   const handleResetToDefault = async () => {
     if (window.confirm('Reset company profile details to default values?')) {
       setSettings(DEFAULT_COMPANY_SETTINGS);
-      localStorage.setItem('apsara_app_settings', JSON.stringify(DEFAULT_COMPANY_SETTINGS));
-      localStorage.removeItem('varun_app_settings');
-      localStorage.removeItem('dheeksha_app_settings');
-      window.dispatchEvent(new Event('apsara_settings_updated'));
+      localStorage.setItem('pbl_billing_app_settings', JSON.stringify(DEFAULT_COMPANY_SETTINGS));
+      localStorage.setItem('pbl_crackers_app_settings', JSON.stringify(DEFAULT_COMPANY_SETTINGS));
+      window.dispatchEvent(new Event('pbl_billing_settings_updated'));
+      window.dispatchEvent(new Event('pbl_settings_updated'));
       try {
         await SettingsApi.update(DEFAULT_COMPANY_SETTINGS);
       } catch (e) {
