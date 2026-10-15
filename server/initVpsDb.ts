@@ -56,8 +56,22 @@ export const initVpsDatabase = async (): Promise<void> => {
 
     console.log('\n🔨 Ensuring collections and indexes exist...');
     for (const item of models) {
-      await item.model.createIndexes();
-      console.log(`   ✓ Collection & indexes verified: ${item.name}`);
+      try {
+        await item.model.createIndexes();
+        console.log(`   ✓ Collection & indexes verified: ${item.name}`);
+      } catch (idxErr: any) {
+        if (idxErr.code === 86 || idxErr.codeName === 'IndexKeySpecsConflict') {
+          console.warn(`   ⚠️ Index conflict detected in ${item.name}. Synchronizing indexes...`);
+          try {
+            await item.model.syncIndexes();
+            console.log(`   ✓ Collection & indexes synchronized: ${item.name}`);
+          } catch (syncErr: any) {
+            console.warn(`   ⚠️ Could not sync indexes for ${item.name}: ${syncErr.message}`);
+          }
+        } else {
+          console.warn(`   ⚠️ Note on ${item.name} indexes:`, idxErr.message);
+        }
+      }
     }
 
     // 1. Seed or Verify Default Admin

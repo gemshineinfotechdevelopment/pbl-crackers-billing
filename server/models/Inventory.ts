@@ -40,7 +40,6 @@ const InventorySchema: Schema = new Schema(
 );
 
 InventorySchema.index({ productName: 1 });
-InventorySchema.index({ sku: 1 });
 
 export const Inventory = mongoose.model<IInventory>('Inventory', InventorySchema, 'inventories');
 export default Inventory;
